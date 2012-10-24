@@ -1,31 +1,30 @@
 package gui;
 
-import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-
-import virtualcamera.Obiekt;
-import virtualcamera.Rysownik;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
+
+import virtualcamera.Scene;
+import virtualcamera.SceneCreator;
 
 public final class MainView extends JFrame implements KeyListener {
-
-	private Rysownik rysownik;
-	private Obiekt obiekt;
+	private static final long serialVersionUID = -9152548955124095714L;
+	
+	private SceneCreator creator;
+	private Scene scene;
 
 	public MainView() {
-		setSize(new Dimension(761, 503));
+		setSize(new Dimension(785, 504));
 		setPreferredSize(new Dimension(760, 480));
 		setTitle("Łukasz Krok - projekt Virtual Camera");
 		setBackground(Color.LIGHT_GRAY);
@@ -80,55 +79,38 @@ public final class MainView extends JFrame implements KeyListener {
 				{ 500.0, 2150.0, 700.0, 500.0, 2150.0, 200.0 },
 				{ 500.0, 2150.0, 200.0, 250.0, 2150.0, 200.0 } };
 
-		obiekt = new Obiekt();
-		obiekt.ladujDane(dane);
-//		obiekt.wypiszDane();
+		scene = new Scene();
+		scene.loadData(dane);
+//		scene.printData();
 
-		rysownik = new Rysownik();
-		rysownik.setBorder(new TitledBorder(null, "View", TitledBorder.LEADING,
+		creator = new SceneCreator();
+		creator.setBorder(new TitledBorder(null, "View", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
-		rysownik.setBackground(Color.WHITE);
+		creator.setBackground(Color.WHITE);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager
 				.getBorder("TitledBorder.border"), "Controls",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				groupLayout
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(rysownik, GroupLayout.DEFAULT_SIZE, 600,
-								Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 118,
-								GroupLayout.PREFERRED_SIZE).addContainerGap()));
-		groupLayout
-				.setVerticalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								Alignment.TRAILING,
-								groupLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addComponent(
-																rysownik,
-																Alignment.LEADING,
-																GroupLayout.DEFAULT_SIZE,
-																419,
-																Short.MAX_VALUE)
-														.addComponent(
-																panel,
-																Alignment.LEADING,
-																GroupLayout.DEFAULT_SIZE,
-																419,
-																Short.MAX_VALUE))
-										.addContainerGap()));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(creator, GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(3))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+						.addComponent(creator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
+					.addContainerGap())
+		);
 
 		JLabel lblMoving = new JLabel("Moving:");
 		lblMoving.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -296,8 +278,8 @@ public final class MainView extends JFrame implements KeyListener {
 		panel.setLayout(gl_panel);
 		getContentPane().setLayout(groupLayout);
 
-		obiekt.setRysownik(rysownik);
-		obiekt.rysuj();
+		scene.setCreator(creator);
+		scene.paint();
 		addKeyListener(this);
 
 	}
@@ -311,78 +293,78 @@ public final class MainView extends JFrame implements KeyListener {
 			
 			// FORWARD
 	        case KeyEvent.VK_UP:
-	        	obiekt.przesunWPrzod();
+	        	scene.translateForward();
 	            break;
 	        
 	        // BACK
 	        case KeyEvent.VK_DOWN:
-	        	obiekt.przesunWTyl();
+	        	scene.translateBack();
 	            break;
 	        
 	        // LEFT
 	        case KeyEvent.VK_LEFT:
-	            obiekt.przesunWLewo();
+	            scene.translateLeft();
 	            break;
 	        
 	        // RIGHT
 	        case KeyEvent.VK_RIGHT:
-	            obiekt.przesunWPrawo();
+	            scene.translateRight();
 	            break;
 	       
 	        // UP
 	        case KeyEvent.VK_COMMA:
-	            obiekt.przesunWGore();
+	            scene.translateUp();
 	            break;
 	        
 	        // DOWN
 	        case KeyEvent.VK_PERIOD:
-	            obiekt.przesunWDol();
+	            scene.translateBottom();
 	            break;
 	            
 	        //=========== ROTATION ==============
 	
 	        // LEFT
 	        case KeyEvent.VK_Z:
-	            obiekt.obrocWLewo();
+	            scene.turnLeft();
 	            break;
 	
 	        // RIGHT
 	        case KeyEvent.VK_X:
-	            obiekt.obrocWPrawo();
+	            scene.turnRight();
 	            break;
 	        
 	        // UP
 	        case KeyEvent.VK_C:
-	            obiekt.obrocWGore();
+	            scene.turnUp();
 	            break;
 	        
 	        // DOWN
 	        case KeyEvent.VK_V:
-	            obiekt.obrocWDol();
+	            scene.turnDown();
 	            break;
 	            
 	        //=========== LEANING ==============
 	
 	        // LEFT
 	        case KeyEvent.VK_OPEN_BRACKET:
-	            obiekt.przechylWLewo();
+	            scene.leanLeft();
 	            break;
 	
 	        // RIGHT
 	        case KeyEvent.VK_CLOSE_BRACKET:
-	            obiekt.przechylWPrawo();
+	            scene.leanRight();
 	            break;
 	 
 		    //=========== ZOOMING ==============
 		
 		    // IN
 		    case KeyEvent.VK_PAGE_UP:
-		        obiekt.przybliz();
+		        scene.zoomIN();
 		        break;
 		
 		    // RIGHT
 		    case KeyEvent.VK_PAGE_DOWN:
-		        obiekt.oddal();
+		        scene.zoomOUT();
 		        break;
 		        
 		}
