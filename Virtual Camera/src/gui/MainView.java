@@ -28,7 +28,8 @@ public final class MainView extends JFrame implements KeyListener {
 		setPreferredSize(new Dimension(760, 480));
 		setTitle("Łukasz Krok - projekt Virtual Camera");
 		setBackground(Color.LIGHT_GRAY);
-		double dane[][] = { { 250.0, 1250.0, 200.0, 500.0, 1250.0, 200.0 },
+		double data[][] = { 
+				{ 250.0, 1250.0, 200.0, 500.0, 1250.0, 200.0 },
 				{ 250.0, 1250.0, 200.0, 250.0, 1250.0, 700.0 },
 				{ 500.0, 1250.0, 200.0, 500.0, 1250.0, 700.0 },
 				{ 500.0, 1250.0, 200.0, 500.0, 1500.0, 200.0 },
@@ -40,6 +41,7 @@ public final class MainView extends JFrame implements KeyListener {
 				{ 500.0, 1500.0, 700.0, 500.0, 1250.0, 700.0 },
 				{ 500.0, 1500.0, 700.0, 500.0, 1500.0, 200.0 },
 				{ 500.0, 1500.0, 200.0, 250.0, 1500.0, 200.0 },
+				
 				{ 900.0, 1250.0, 200.0, 1150.0, 1250.0, 200.0 },
 				{ 900.0, 1250.0, 200.0, 900.0, 1250.0, 700.0 },
 				{ 1150.0, 1250.0, 200.0, 1150.0, 1250.0, 700.0 },
@@ -80,8 +82,8 @@ public final class MainView extends JFrame implements KeyListener {
 				{ 500.0, 2150.0, 200.0, 250.0, 2150.0, 200.0 } };
 
 		scene = new Scene();
-		scene.loadData(dane);
-//		scene.printData();
+		scene.loadData(data);
+		scene.printData();
 
 		creator = new SceneCreator();
 		creator.setBorder(new TitledBorder(null, "View", TitledBorder.LEADING,
