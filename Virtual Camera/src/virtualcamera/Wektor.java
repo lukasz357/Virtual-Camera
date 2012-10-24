@@ -16,6 +16,11 @@ public class Wektor {
         this.b = b;
     }
     
+    public Wektor( Wektor v ){
+        this.a = v.a;
+        this.b = v.b;
+    }
+    
     public Punkt getA() {
         return a;
     }

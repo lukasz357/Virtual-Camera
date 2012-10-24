@@ -11,9 +11,8 @@ public class Obiekt {
     public double KROK_OGNISKOWEJ = 10.0;
     public double KROK_OBROTU = 0.1;
     
-    public Obiekt(Rysownik rysownik) {
+    public Obiekt() {
     	this.wektory = new ArrayList<Wektor>();
-        this.rysownik = rysownik;
         this.widok = new Widok(wektory);
     }
     
@@ -21,7 +20,8 @@ public class Obiekt {
         for( int i=0; i<dane.length; i++  ) {
             Punkt a = new Punkt(dane[i][0], dane[i][1], dane[i][2]);
             Punkt b = new Punkt(dane[i][3], dane[i][4], dane[i][5]);
-            wektory.add(new Wektor(a,b));
+            Wektor newVct = new Wektor(a,b);
+            wektory.add(newVct);
         }
     }
     
@@ -199,4 +199,12 @@ public class Obiekt {
             System.out.println(wektory.get(i));
         }
     }
+
+	public Rysownik getRysownik() {
+		return rysownik;
+	}
+
+	public void setRysownik(Rysownik rysownik) {
+		this.rysownik = rysownik;
+	}
 }
