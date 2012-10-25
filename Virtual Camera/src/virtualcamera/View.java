@@ -37,9 +37,9 @@ public class View {
 			pointB = vec.getB();
 
 			if (visiblePoint(pointA) && visiblePoint(pointB)) {
-				My2DVector wektor2D = new My2DVector(projectPoint(pointA),
+				My2DVector vector2D = new My2DVector(projectPoint(pointA),
 						projectPoint(pointB));
-				space.add(wektor2D);
+				space.add(vector2D);
 			}
 		}
 
